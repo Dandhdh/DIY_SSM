@@ -1,22 +1,19 @@
 package com.dyy.pojo;
 
 public class User {
-    private Integer userid;
+    private int userId ;
+    private String username ;
+    private String password ;
+    private String description ;
 
-    private String username;
 
-    private String password;
 
-    private Integer roleid;
-
-    private String description;
-
-    public Integer getUserid() {
-        return userid;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -24,7 +21,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     public String getPassword() {
@@ -32,15 +29,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public Integer getRoleid() {
-        return roleid;
-    }
-
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+        this.password = password;
     }
 
     public String getDescription() {
@@ -48,17 +37,6 @@ public class User {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userid=" + userid +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", roleid=" + roleid +
-                ", description='" + description + '\'' +
-                '}';
+        this.description = description;
     }
 }

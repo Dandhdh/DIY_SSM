@@ -115,52 +115,52 @@ public class UserExample {
         }
 
         public Criteria andUseridEqualTo(Integer value) {
-            addCriterion("userId =", value, "userid");
+            addCriterion("userId =", value, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridNotEqualTo(Integer value) {
-            addCriterion("userId <>", value, "userid");
+            addCriterion("userId <>", value, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridGreaterThan(Integer value) {
-            addCriterion("userId >", value, "userid");
+            addCriterion("userId >", value, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridGreaterThanOrEqualTo(Integer value) {
-            addCriterion("userId >=", value, "userid");
+            addCriterion("userId >=", value, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridLessThan(Integer value) {
-            addCriterion("userId <", value, "userid");
+            addCriterion("userId <", value, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridLessThanOrEqualTo(Integer value) {
-            addCriterion("userId <=", value, "userid");
+            addCriterion("userId <=", value, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridIn(List<Integer> values) {
-            addCriterion("userId in", values, "userid");
+            addCriterion("userId in", values, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridNotIn(List<Integer> values) {
-            addCriterion("userId not in", values, "userid");
+            addCriterion("userId not in", values, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridBetween(Integer value1, Integer value2) {
-            addCriterion("userId between", value1, value2, "userid");
+            addCriterion("userId between", value1, value2, "userId");
             return (Criteria) this;
         }
 
         public Criteria andUseridNotBetween(Integer value1, Integer value2) {
-            addCriterion("userId not between", value1, value2, "userid");
+            addCriterion("userId not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
