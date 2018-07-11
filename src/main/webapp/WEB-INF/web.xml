@@ -2,99 +2,58 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          id="WebApp_ID" version="3.0">
-    <display-name>neverlost</display-name>
+    <display-name>DIY_SSM</display-name>
+
+    <welcome-file-list>
+        <welcome-file>turnToIndex.jsp</welcome-file>
+    </welcome-file-list>
+
     <!--前置控制器-->
     <servlet>
-        <servlet-name>springmvc</servlet-name>
+        <servlet-name>SpringMVC</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/springmvc.xml</param-value>
+            <param-value>classpath:springmvc.xml</param-value>
         </init-param>
-        <!--<load-on-startup>1</load-on-startup>-->
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
-        <servlet-name>springmvc</servlet-name>
+        <servlet-name>SpringMVC</servlet-name>
+        <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 /表示拦截所有请求 -->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    <!-- 将mapper，service，controller加载到Spring容器中 -->
+
+    <!-- Spring和mybatis的配置文件 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/spring-*.xml</param-value>
+        <param-value>classpath:spring-mybatis.xml</param-value>
     </context-param>
+
+    <!-- Spring监听器 -->
     <!--自动装配contextConfigLocation-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-
-    <!--SpringMVC开启CORS支持 -->
-    <!--<filter>-->
-        <!--<filter-name>CORS</filter-name>-->
-        <!--<filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.allowGenericHttpRequests</param-name>-->
-            <!--<param-value>true</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.allowOrigin</param-name>-->
-            <!--<param-value>*</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.allowSubdomains</param-name>-->
-            <!--<param-value>false</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.supportedMethods</param-name>-->
-            <!--<param-value>GET, HEAD, POST, OPTIONS</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.supportedHeaders</param-name>-->
-            <!--<param-value>*</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.exposedHeaders</param-name>-->
-            <!--<param-value>*</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.supportsCredentials</param-name>-->
-            <!--<param-value>true</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>cors.maxAge</param-name>-->
-            <!--<param-value>3600</param-value>-->
-        <!--</init-param>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>CORS</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
+    <!-- 防止Spring内存溢出监听器 -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
 
 
-    <!--加密过滤器-->
-    <!--<filter>-->
-        <!--<filter-name>CheckTokenFilter</filter-name>-->
-        <!--<filter-class>club.dataresources.filter.CheckTokenFilter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>CheckTokenFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
-    <!--</filter-mapping>-->
-
-    <!--编码过滤器-->
+    <!-- 编码过滤器 -->
     <filter>
-        <filter-name>characterEncodingFilter</filter-name>
+        <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
         </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
     </filter>
     <filter-mapping>
-        <filter-name>characterEncodingFilter</filter-name>
+        <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 </web-app>
