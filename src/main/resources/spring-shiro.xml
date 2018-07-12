@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 自动扫描 -->
+    <context:component-scan base-package="com.dyy" />
+
+    <!-- 配置自定义Realm -->
+    <bean id="myRealm" class="com.dyy.shiro.MyRealm">
+        <!-- 关闭授权缓存域，把authorizationCachingEnabled设置为false -->
+        <property name="authorizationCachingEnabled" value="false"/>
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"/>
+    </bean>
+
+    <!-- Shiro过滤器 核心-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口,这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!-- 身份认证失败，则跳转到登录页面的配置 -->
+        <property name="loginUrl" value="/login.jsp"/>
+        <!-- 权限认证失败，则跳转到指定页面 -->
+        <property name="unauthorizedUrl" value="/nopower.jsp"/>
+        <!-- Shiro连接约束配置,即过滤链的定义 -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- 对符合某规则url的拦截，认证 -->
+
+                <!--anon 表示匿名访问，不需要认证以及授权-->
+                <!--
+                    /loginAdmin=anon的意思的意思是，发起/loginAdmin这个请求是不需要进行身份认证的，
+                    这个请求在这次项目中是一个登录请求，一般对于这样的请求都是不需要身份认证的。
+                 -->
+                /loginAdmin=anon
+
+                <!--authc表示需要认证 没有进行身份认证是不能进行访问的-->
+                <!--
+                    /admin*=authc表示 /admin,/admin1,/admin2这样的请求都是需要进行身份认证的，不然是不能访问的。 -->
+                /admin*=authc
+
+                <!--
+                    student=roles[teacher] 表示访问/student请求的用户必须是teacher角色，不然是不能进行访问的。
+                    /teacher=perms[“user:create”] 表示访问/teacher请求是需要当前用户具有user:create权限才能进行访问的。
+                -->
+                /student=roles[teacher]
+                /teacher=perms["user:create"]
+            </value>
+        </property>
+    </bean>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 开启Shiro注解 -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+</beans>

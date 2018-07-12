@@ -39,7 +39,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
 
-    /** ×Ô¶¨Òå²éÑ¯½Ó¿Ú */
+    /** è‡ªå®šä¹‰æ¥å£ */
 
     User findByLogin(User user);
 
@@ -50,8 +50,8 @@ public interface UserMapper {
     List<User> findHotUser();
 
     List<User> findAllByQuery(User user) ;
-    /** ·ÖÒ³²éÑ¯ */
+    /** åˆ†é¡µæŸ¥è¯¢ */
     List<User> list(Map<String, Object> map);
-    /** »ñÈ¡×ÜÊı */
+    /** æ€»è®°å½•æ•° */
     Long getTotal(Map<String, Object> map);
 }
