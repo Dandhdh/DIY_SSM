@@ -30,6 +30,7 @@
                 </a></li>
                 <li><a href="#" data-toggle="modal" data-target="#about">关于</a></li>
             </ul>
+            <!-- 查询框 和 生成索引按钮 -->
             <form class="navbar-form navbar-left" action="<%=path %>/q" method="post"
                   role="search">
                 <div class="form-group">

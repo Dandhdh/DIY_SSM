@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="DIY_SSM archive">
-    <output-path>$PROJECT_DIR$/out/artifacts/DIY_SSM_archive</output-path>
-    <root id="archive" name="DIY_SSM archive.war">
-      <element id="artifact" artifact-name="DIY_SSM" />
-    </root>
-  </artifact>
-</component>

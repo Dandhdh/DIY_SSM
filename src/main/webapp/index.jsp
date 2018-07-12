@@ -6,6 +6,12 @@
             + request.getServerName() + ":" + request.getServerPort()
             + path + "/";
 %>
+<!--
+     request.getSchema()可以返回当前页面使用的协议，http 或是 https;
+     request.getServerName()可以返回当前页面所在的服务器的名字;
+     request.getServerPort()可以返回当前页面所在的服务器使用的端口,就是80;
+     request.getContextPath()可以返回当前页面所在的应用的名字;
+-->
 
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -50,7 +56,7 @@
 
 <div id="carousel-example-generic" class="carousel slide"
      data-ride="carousel">
-    <!-- Indicators -->
+    <!-- 图片背景的的顺序 -->
     <ol class="carousel-indicators">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
         <li data-target="#carousel-example-generic" data-slide-to="1"></li>
@@ -62,11 +68,11 @@
         <div class="item active">
             <div class="carousel-caption">
                 <p class="text-primary">
-                    Spring+SpringMVC+mybatis整合实例
+                    Spring+SpringMVC+mybatis整合实例22
                 </p>
             </div>
             <a href="<%=path%>/user/showUser/1">
-                <img src="<%=path%>/img/spring.png"  alt="">
+                <img src="/img/spring.png"  alt="">
             </a>
         </div>
         <div class="item">

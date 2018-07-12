@@ -161,6 +161,13 @@
     <hr class="divider"/>
 </div>
 
+<!--
+   Bootstrap中的data-target和data-toggle
+   data-toggle：以什么事件触发，如modal,popover,tooltips等；
+   data-target：事件的目标；
+   -->
+<!-- data-toggle="modal"
+     模态框（Modal）是覆盖在父窗体上的子窗体 -->
 
 <!-- 弹出框 模态框关于 -->
 <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -198,10 +205,10 @@
             </div>
             <div class="modal-body">
                 <p>
-                    自由开发者crossoverJie
+                    Java开发者dyy
                 </p>
                 <address>
-                    <a href="mailto:731756881@qq.com">731756881@qq.com</a>
+                    <a href="mailto:405507582@qq.com">405507582@qq.com</a>
                 </address>
             </div>
             <div class="modal-footer">
