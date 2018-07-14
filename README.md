@@ -4,8 +4,18 @@ SSM框架整合
 使用Idea搭建的Maven项目，并逐渐将某些技术添加进去<br>
 [仿照项目](https://github.com/crossoverJie/SSM)
 
-* [x] 待续
-
+* [x] (六)SSM动态切换数据源
+  - 拓展多数据源（相当于一个dataSource的路由）
+  - 通过切面自动切换数据源，思路
+    - 通过JoinPoint对象获取目标对象。
+    - 在目标对象中获取包名来区分不同的数据源。
+    - 根据不同数据源来进行赋值。
+    - 执行完毕之后将数据源清空。
+  - 绕坑
+  ```
+   报错： No MethodInvocation found: Check that an AOP invocation is in progress, and that the ExposeInvocationInterceptor is upfront in the interceptor chain. Specifically, note that advices with order HIGHEST_PRECEDENCE will execute before ExposeInvocationInterceptor!
+  ```
+  [解决方法](https://blog.csdn.net/qingrunhao/article/details/53102511)
 * [x] (五)在JavaWeb应用中使用Redis
   - 自定义拦截器
   - spring与redis整合以及基于aop对service的select开头的方法进行拦截，见spring-redis.xml
