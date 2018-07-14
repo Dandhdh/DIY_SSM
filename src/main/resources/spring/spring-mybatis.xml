@@ -2,22 +2,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                              http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/aop
+                             http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
                              http://www.springframework.org/schema/context
                              http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.dyy" />
-    <context:component-scan base-package="com.dyy.service"/>
+    <aop:aspectj-autoproxy/>
+
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:jdbc.properties" />
     </bean>
-    <!-- 使用druid数据连接池 -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+
+
+    <!-- 动态数据源，这里配置了两个数据源 -->
+    <bean id="ssm1DataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init" destroy-method="close">
         <!-- 指定连接数据库的驱动 -->
         <property name="driverClassName" value="${jdbc.driverClass}" />
@@ -34,11 +40,11 @@
         <property name="timeBetweenEvictionRunsMillis" value="60000" />
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
         <property name="minEvictableIdleTimeMillis" value="300000" />
+
         <property name="validationQuery" value="SELECT 'x'" />
         <property name="testWhileIdle" value="true" />
         <property name="testOnBorrow" value="false" />
         <property name="testOnReturn" value="false" />
-
         <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
         <property name="poolPreparedStatements" value="true" />
         <property name="maxPoolPreparedStatementPerConnectionSize"
@@ -46,6 +52,83 @@
         <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
         <property name="filters" value="stat" />
     </bean>
+
+    <bean id="ssm2DataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <!-- 指定连接数据库的驱动 -->
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.url2}"/>
+        <property name="username" value="${jdbc.username2}"/>
+        <property name="password" value="${jdbc.password2}"/>
+        <property name="initialSize" value="3"/>
+        <property name="minIdle" value="3"/>
+        <property name="maxActive" value="20"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="20"/>
+        <!-- 配置监控统计拦截的filters，去掉后监控界面sql无法统计 -->
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <!-- 通过spring注入DynamicDataSource类，获取到真正的数据源 -->
+    <bean id="dataSource" class="com.dyy.dataSource.DynamicDataSource">
+        <!--再通过Spring的依赖注入方式将两个数据源设置进targetDataSources-->
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="ssm1DataSource" value-ref="ssm1DataSource"/>
+                <entry key="ssm2DataSource" value-ref="ssm2DataSource"/>
+            </map>
+        </property>
+        <!--默认数据源-->
+        <property name="defaultTargetDataSource" ref="ssm1DataSource"/>
+    </bean>
+
+
+    <!-- 单数据源 -->
+    <!-- 使用druid数据连接池 -->
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"-->
+          <!--init-method="init" destroy-method="close">-->
+        <!--&lt;!&ndash; 指定连接数据库的驱动 &ndash;&gt;-->
+        <!--<property name="driverClassName" value="${jdbc.driverClass}" />-->
+        <!--<property name="url" value="${jdbc.url}" />-->
+        <!--<property name="username" value="${jdbc.username}" />-->
+        <!--<property name="password" value="${jdbc.password}" />-->
+        <!--&lt;!&ndash; 配置初始化大小、最小、最大 &ndash;&gt;-->
+        <!--<property name="initialSize" value="3" />-->
+        <!--<property name="minIdle" value="3" />-->
+        <!--<property name="maxActive" value="20" />-->
+        <!--&lt;!&ndash; 配置获取连接等待超时的时间 &ndash;&gt;-->
+        <!--<property name="maxWait" value="60000" />-->
+        <!--&lt;!&ndash; 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 &ndash;&gt;-->
+        <!--<property name="timeBetweenEvictionRunsMillis" value="60000" />-->
+        <!--&lt;!&ndash; 配置一个连接在池中最小生存的时间，单位是毫秒 &ndash;&gt;-->
+        <!--<property name="minEvictableIdleTimeMillis" value="300000" />-->
+        <!--<property name="validationQuery" value="SELECT 'x'" />-->
+        <!--<property name="testWhileIdle" value="true" />-->
+        <!--<property name="testOnBorrow" value="false" />-->
+        <!--<property name="testOnReturn" value="false" />-->
+
+        <!--&lt;!&ndash; 打开PSCache，并且指定每个连接上PSCache的大小 &ndash;&gt;-->
+        <!--<property name="poolPreparedStatements" value="true" />-->
+        <!--<property name="maxPoolPreparedStatementPerConnectionSize"-->
+                  <!--value="20" />-->
+        <!--&lt;!&ndash; 配置监控统计拦截的filters，去掉后监控界面sql无法统计 &ndash;&gt;-->
+        <!--<property name="filters" value="stat" />-->
+    <!--</bean>-->
+
+
+
     <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
