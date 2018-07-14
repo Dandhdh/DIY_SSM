@@ -43,6 +43,7 @@
             <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
         </property>
     </bean>
+
     <!-- cache配置 -->
     <bean id="methodCacheInterceptor" class="com.dyy.intercept.MethodCacheInterceptor">
         <property name="redisUtil" ref="redisUtil"/>
@@ -50,6 +51,7 @@
     <bean id="redisUtil" class="com.dyy.util.RedisUtil">
         <property name="redisTemplate" ref="redisTemplate"/>
     </bean>
+
     <!--配置切面拦截方法 -->
     <aop:config proxy-target-class="true">
         <!--将com.dyy.service包下的所有select开头的方法加入拦截
@@ -61,7 +63,6 @@
                       expression="execution(* com.dyy.dao..*Mapper.select*(..))"/>
         <aop:advisor advice-ref="methodCacheInterceptor" pointcut-ref="controllerMethodPointcut"/>
     </aop:config>
-
     <!--
       Spring切面使用缓存
       在不使用切面的时候如果我们想给某个方法加入缓存的话肯定是在方法返回之前就要加入相应的逻辑判断，
