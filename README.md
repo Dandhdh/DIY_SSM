@@ -4,6 +4,10 @@ SSM框架整合
 使用Idea搭建的Maven项目，并逐渐将某些技术添加进去<br>
 [仿照项目](https://github.com/crossoverJie/SSM)
 
+***
+
+* [x] 待续
+
 * [x] (六)SSM动态切换数据源
   - 拓展多数据源（相当于一个dataSource的路由）
   - 通过切面自动切换数据源，思路
@@ -13,7 +17,9 @@ SSM框架整合
     - 执行完毕之后将数据源清空。
   - 绕坑
   ```
-   报错： No MethodInvocation found: Check that an AOP invocation is in progress, and that the ExposeInvocationInterceptor is upfront in the interceptor chain. Specifically, note that advices with order HIGHEST_PRECEDENCE will execute before ExposeInvocationInterceptor!
+   当使用xml配置的切面编程拦截所有的数据库操作时，一直报错
+   No MethodInvocation found: Check that an AOP invocation is in progress, and that the ExposeInvocationInterceptor is upfront in the interceptor chain. Specifically, note that advices with order HIGHEST_PRECEDENCE will execute before ExposeInvocationInterceptor!
+   通过使用注解配置切面代替了xml配置，进而解决。
   ```
   [解决方法](https://blog.csdn.net/qingrunhao/article/details/53102511)
 * [x] (五)在JavaWeb应用中使用Redis
