@@ -22,6 +22,7 @@ SSM框架整合
    通过使用注解配置切面代替了xml配置，进而解决。
   ```
   [解决方法](https://blog.csdn.net/qingrunhao/article/details/53102511)
+  执行test中的单元测试即可查运行情况
 * [x] (五)在JavaWeb应用中使用Redis
   - 自定义拦截器
   - spring与redis整合以及基于aop对service的select开头的方法进行拦截，见spring-redis.xml
