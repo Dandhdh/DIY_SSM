@@ -11,8 +11,6 @@
 
     <artifactId>SSM-Boot</artifactId>
     <name>SSM-Boot</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,7 +21,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.crossoverJie</groupId>
+            <groupId>com.dyy</groupId>
             <artifactId>SSM-API</artifactId>
         </dependency>
 
